@@ -7,4 +7,5 @@ Aby korzystać:
   b) aby zatwierdzić zmiany, kliknij 'ENTER'
   c) aby zrestartować symulację z podanymi w polach wartościami, naciśnij 'r'
   d) aby zastopować/odstopować symulację, naciśnij 's'
-4) miłej zabawy!
+4) wszystkie pliki są w branchu 'master'
+5) miłej zabawy!
