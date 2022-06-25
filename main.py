@@ -26,9 +26,6 @@ Gravity = 8
 scatter1 = []
 scatter2 = []
 
-
-
-
 restart = False
 
 LIST_LIMIT = 100
@@ -113,6 +110,8 @@ while run:
         pygame.draw.lines(screen, SCATTERLINE2, False, scatter1, 1)
 
     pygame.draw.line(screen, PENDULUMARM, (x1, y1), (x2, y2), ARMSTROKE)
+
+    
 
     pygame.draw.circle(screen, SMALLPOINT, (int(x2), int(y2)), 10)
     pygame.draw.circle(screen, MAINPOINT, (int(x1), int(y1)), 20)
