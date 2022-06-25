@@ -5,7 +5,11 @@ from TextBox import TextBox
 from TextInputBox import TextInputBox
 from anglesPlot import drawing_plots
 
+# dla ekranów full-HD i większych:
 window_scaling = 1
+
+# dla ekranów mniejszych (odkomentować poniższe):
+# window_scaling /= 1.5
 
 # initializing pygame values
 w, h = 1920 // (1 / window_scaling), 1080 // (1 / window_scaling)
@@ -19,11 +23,11 @@ screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 
 # initializing initial parameters
-init_mass = width // 48
+init_mass = max(width // 48, 1)
 mass1 = init_mass
 mass2 = init_mass
-length1 = int(width // 9.6)
-length2 = int(width // 9.6)
+length1 = max(int(width // 9.6), 1)
+length2 = max(int(width // 9.6), 1)
 
 angle1 = math.pi / 2
 angle2 = math.pi / 2
@@ -47,14 +51,14 @@ SCATTER_LINE_2 = (255, 255, 0)
 FIRST_POINT = (0, 255, 0)
 SECOND_POINT = (0, 255, 255)
 PENDULUM_ARM = (45, 140, 245)
-ARM_STROKE = width // 120
+ARM_STROKE = max(width // 120, 1)
 
-scaling = width // 960
+scaling = max(width // 960, 1)
 
 first_point_width = mass1 // scaling
 second_point_width = mass2 // scaling
 
-starting_point = (width // 2, height // 3)
+starting_point = (max(width // 2, 1), max(height // 3, 1))
 
 x_offset = starting_point[0]
 y_offset = starting_point[1]
@@ -64,25 +68,25 @@ text_box_size = width // 8
 dist_from_border = height // 100
 font = pygame.font.Font(None, text_box_size // 4)
 mass1_changer = TextInputBox(dist_from_border, dist_from_border, text_box_size,
-                             font, "Mass 1", str(mass1))
+                             font, "Masa 1", str(mass1))
 mass2_changer = TextInputBox(dist_from_border + text_box_size, dist_from_border,
-                             text_box_size, font, "Mass 2", str(mass2))
+                             text_box_size, font, "Masa 2", str(mass2))
 angle1_changer = TextInputBox(dist_from_border + 2 * text_box_size, dist_from_border,
-                              text_box_size, font, "Angle 1", str(round(angle1, 6)))
+                              text_box_size, font, "Kąt 1", str(round(angle1, 6)))
 angle2_changer = TextInputBox(dist_from_border + 3 * text_box_size, dist_from_border,
-                              text_box_size, font, "Angle 2", str(round(angle2, 6)))
+                              text_box_size, font, "Kąt 2", str(round(angle2, 6)))
 group = pygame.sprite.Group(mass1_changer,
                             mass2_changer,
                             angle1_changer,
                             angle2_changer)
 
 # instructions
-instructions1 = "Click: \'r\' - restart and set chosen parameters, " \
-                "right-click on box - edit params,"
-instructions2 = "\'ENTER\' - stop editing, " \
-                "\'s\' - stop or resume the simulation"
+instructions1 = "Kliknij: \'r\' - restart z podanymi parametrami, " \
+                "myszką na liczby - edytuj,"
+instructions2 = "\'ENTER\' - przestań edytować, " \
+                "\'s\' - zastopuj/odstopuj symulację"
 instructions_box = TextBox(dist_from_border, height - (text_box_size - dist_from_border),
-                           text_box_size, font, instructions1, instructions2)
+                           width - 2 * dist_from_border, font, instructions1, instructions2)
 
 group.add(instructions_box)
 
