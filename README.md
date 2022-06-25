@@ -9,4 +9,3 @@ Aby korzystać:
   d) aby zastopować/odstopować symulację, naciśnij 's'
 4) wszystkie pliki są w branchu 'master'
 5) miłej zabawy!
-6) 
