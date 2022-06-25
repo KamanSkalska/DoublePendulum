@@ -5,11 +5,15 @@ from TextBox import TextBox
 from TextInputBox import TextInputBox
 from anglesPlot import drawing_plots
 
+window_scaling = 1
+
 # initializing pygame values
-width, height = 1920, 1080
+w, h = 1920 // (1 / window_scaling), 1080 // (1 / window_scaling)
+width = int(w)
+height = int(h)
 SIZE = (width, height)
 pygame.init()
-pygame.display.set_caption("Double Pendulum")
+pygame.display.set_caption("Wahadło podwójne")
 fps = 30
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
@@ -18,11 +22,11 @@ clock = pygame.time.Clock()
 init_mass = width // 48
 mass1 = init_mass
 mass2 = init_mass
-length1 = width // 9.6
-length2 = width // 9.6
+length1 = int(width // 9.6)
+length2 = int(width // 9.6)
 
-angle1 = math.pi/2
-angle2 = math.pi/2
+angle1 = math.pi / 2
+angle2 = math.pi / 2
 angle_velocity1 = 0
 angle_velocity2 = 0
 angle_acceleration1 = 0
@@ -43,14 +47,14 @@ SCATTER_LINE_2 = (255, 255, 0)
 FIRST_POINT = (0, 255, 0)
 SECOND_POINT = (0, 255, 255)
 PENDULUM_ARM = (45, 140, 245)
-ARM_STROKE = width // 100
+ARM_STROKE = width // 120
 
-scaling = width // 500
+scaling = width // 960
 
 first_point_width = mass1 // scaling
 second_point_width = mass2 // scaling
 
-starting_point = width//2, height//3
+starting_point = (width // 2, height // 3)
 
 x_offset = starting_point[0]
 y_offset = starting_point[1]
@@ -76,7 +80,7 @@ group = pygame.sprite.Group(mass1_changer,
 instructions1 = "Click: \'r\' - restart and set chosen parameters, " \
                 "right-click on box - edit params,"
 instructions2 = "\'ENTER\' - stop editing, " \
-                "\'s\' - stop the simulation"
+                "\'s\' - stop or resume the simulation"
 instructions_box = TextBox(dist_from_border, height - (text_box_size - dist_from_border),
                            text_box_size, font, instructions1, instructions2)
 
@@ -109,12 +113,10 @@ try:
                         angle_velocity1 = 0
                         angle_velocity2 = 0
                     finally:
-                        angle1 = angle1
-                        angle2 = angle2
-                        angle_velocity1 = angle_velocity1
-                        angle_velocity2 = angle_velocity2
-                        angle_acceleration1 = angle_acceleration1
-                        angle_acceleration2 = angle_acceleration2
+                        angle_velocity1 = 0
+                        angle_velocity2 = 0
+                        angle_acceleration1 = 0
+                        angle_acceleration2 = 0
                         scatter1 = []
                         scatter2 = []
 
@@ -171,7 +173,8 @@ try:
         pygame.display.update()
 
     pygame.quit()
-except Exception:
-    print("Gdzies w kodzie program musial podzielic przez 0 - dlatego sie wylaczyl")
+
+except ValueError:
+    print("Gdzies w kodzie program musial podzielic przez 0 - dlatego program sie wylaczyl")
 finally:
-    drawing_plots(angle1_list, angle2_list)
+    drawing_plots(angle1_list, angle2_list, fps)
