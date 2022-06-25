@@ -1,8 +1,6 @@
 import math
-import random
 import pygame
 import Formular
-from Point import Point
 from TextBox import TextBox
 from TextInputBox import TextInputBox
 
@@ -51,16 +49,16 @@ x_offset = starting_point[0]
 y_offset = starting_point[1]
 
 # adding text fields
-text_box_size = 220
-dist_from_border = 20
+text_box_size = width / 8
+dist_from_border = height / 100
 font = pygame.font.Font(None, 50)
-mass1_changer = TextInputBox(20, dist_from_border, text_box_size,
+mass1_changer = TextInputBox(dist_from_border, dist_from_border, text_box_size,
                              font, "Mass 1", str(mass1))
-mass2_changer = TextInputBox(20 + text_box_size, dist_from_border,
+mass2_changer = TextInputBox(dist_from_border + text_box_size, dist_from_border,
                              text_box_size, font, "Mass 2", str(mass2))
-angle1_changer = TextInputBox(20 + 2 * text_box_size, dist_from_border,
+angle1_changer = TextInputBox(dist_from_border + 2 * text_box_size, dist_from_border,
                               text_box_size, font, "Angle 1", str(round(angle1, 9)))
-angle2_changer = TextInputBox(20 + 3 * text_box_size, dist_from_border,
+angle2_changer = TextInputBox(dist_from_border + 3 * text_box_size, dist_from_border,
                               text_box_size, font, "Angle 2", str(round(angle2, 9)))
 group = pygame.sprite.Group(mass1_changer,
                             mass2_changer,
@@ -72,7 +70,7 @@ instructions1 = "Click: \'r\' - restart and set chosen parameters, " \
                 "right-click on box - edit params,"
 instructions2 = "\'ENTER\' - stop editing, " \
                 "\'s\' - stop the simulation"
-instructions_box = TextBox(dist_from_border, 1080 - (text_box_size - dist_from_border),
+instructions_box = TextBox(dist_from_border, height - (text_box_size - dist_from_border),
                            text_box_size, font, instructions1, instructions2)
 
 group.add(instructions_box)
