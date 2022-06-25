@@ -70,8 +70,8 @@ group = pygame.sprite.Group(mass1_changer,
 # instructions
 instructions1 = "Click: \'r\' - restart and set chosen parameters, " \
                 "right-click on box - edit params,"
-instructions2 = "\'ENTER\' - stop editing" \
-                "\'s\' - stop the simulation, "
+instructions2 = "\'ENTER\' - stop editing, " \
+                "\'s\' - stop the simulation"
 instructions_box = TextBox(dist_from_border, 1080 - (text_box_size - dist_from_border),
                            text_box_size, font, instructions1, instructions2)
 
@@ -94,27 +94,20 @@ while run:
                 try:
                     mass1 = float(mass1_changer.get_text())
                     mass2 = float(mass2_changer.get_text())
-                    first_point_width = mass1 // 2
-                    second_point_width = mass2 // 2
                     angle1 = float(angle1_changer.get_text())
                     angle2 = float(angle2_changer.get_text())
-                    angle_velocity1 = 0
-                    angle_velocity2 = 0
-                    angle_acceleration1 = 0
-                    angle_acceleration2 = 0
-                    scatter1 = []
-                    scatter2 = []
                 except ValueError:
                     mass1 = 40
                     mass2 = 40
-                    first_point_width = mass1 // 2
-                    second_point_width = mass2 // 2
-                    angle1 = 0
-                    angle2 = 0
                     angle_velocity1 = 0
                     angle_velocity2 = 0
-                    angle_acceleration1 = 0
-                    angle_acceleration2 = 0
+                finally:
+                    angle1 = angle1
+                    angle2 = angle2
+                    angle_velocity1 = angle_velocity1
+                    angle_velocity2 = angle_velocity2
+                    angle_acceleration1 = angle_acceleration1
+                    angle_acceleration2 = angle_acceleration2
                     scatter1 = []
                     scatter2 = []
 
