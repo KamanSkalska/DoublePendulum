@@ -64,9 +64,9 @@ mass1_changer = TextInputBox(dist_from_border, dist_from_border, text_box_size,
 mass2_changer = TextInputBox(dist_from_border + text_box_size, dist_from_border,
                              text_box_size, font, "Mass 2", str(mass2))
 angle1_changer = TextInputBox(dist_from_border + 2 * text_box_size, dist_from_border,
-                              text_box_size, font, "Angle 1", str(round(angle1, 9)))
+                              text_box_size, font, "Angle 1", str(round(angle1, 6)))
 angle2_changer = TextInputBox(dist_from_border + 3 * text_box_size, dist_from_border,
-                              text_box_size, font, "Angle 2", str(round(angle2, 9)))
+                              text_box_size, font, "Angle 2", str(round(angle2, 6)))
 group = pygame.sprite.Group(mass1_changer,
                             mass2_changer,
                             angle1_changer,
