@@ -5,7 +5,7 @@ from TextBox import TextBox
 from TextInputBox import TextInputBox
 
 # initializing pygame values
-width, height = 1920, 1080
+width, height = 1920/2, 1080/2
 SIZE = (width, height)
 pygame.init()
 pygame.display.set_caption("Double Pendulum")
