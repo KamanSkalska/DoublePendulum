@@ -49,9 +49,9 @@ x_offset = starting_point[0]
 y_offset = starting_point[1]
 
 # adding text fields
-text_box_size = width / 8
-dist_from_border = height / 100
-font = pygame.font.Font(None, 50)
+text_box_size = width // 8
+dist_from_border = height // 100
+font = pygame.font.Font(None, text_box_size // 3)
 mass1_changer = TextInputBox(dist_from_border, dist_from_border, text_box_size,
                              font, "Mass 1", str(mass1))
 mass2_changer = TextInputBox(dist_from_border + text_box_size, dist_from_border,
