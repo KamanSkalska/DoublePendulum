@@ -3,6 +3,7 @@ import pygame
 import Formular
 from TextBox import TextBox
 from TextInputBox import TextInputBox
+from anglesPlot import drawing_plots
 
 # initializing pygame values
 width, height = 1920/2, 1080/2
@@ -29,6 +30,9 @@ Gravity = 8
 scatter1 = []
 scatter2 = []
 
+angle1_list=[]
+angle2_list=[]
+
 LIST_LIMIT = 100
 
 # COLORS
@@ -51,7 +55,7 @@ y_offset = starting_point[1]
 # adding text fields
 text_box_size = width // 8
 dist_from_border = height // 100
-font = pygame.font.Font(None, text_box_size // 3)
+font = pygame.font.Font(None, int(text_box_size // 3))
 mass1_changer = TextInputBox(dist_from_border, dist_from_border, text_box_size,
                              font, "Mass 1", str(mass1))
 mass2_changer = TextInputBox(dist_from_border + text_box_size, dist_from_border,
@@ -135,6 +139,9 @@ while run:
         angle1 += angle_velocity1
         angle2 += angle_velocity2
 
+        angle1_list.append(angle1)
+        angle2_list.append(angle2)
+
         # adding scattered points to list
         if len(scatter1) > LIST_LIMIT:
             scatter1.pop()
@@ -159,3 +166,6 @@ while run:
     pygame.display.update()
 
 pygame.quit()
+
+drawing_plots(angle1_list,angle2_list)
+
