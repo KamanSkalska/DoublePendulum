@@ -4,12 +4,13 @@ import Formular
 from TextBox import TextBox
 from TextInputBox import TextInputBox
 from anglesPlot import drawing_plots
+from ToggleButton import ToggleButton
 
 # dla ekranów full-HD i większych:
 window_scaling = 1
 
 # dla ekranów mniejszych (odkomentować poniższe):
-# window_scaling /= 1.5
+window_scaling /= 1.2
 
 # initializing pygame values
 w, h = 1920 // (1 / window_scaling), 1080 // (1 / window_scaling)
@@ -18,7 +19,7 @@ height = int(h)
 SIZE = (width, height)
 pygame.init()
 pygame.display.set_caption("Wahadło podwójne")
-fps = 30
+fps = 60
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 
@@ -35,7 +36,7 @@ angle_velocity1 = 0
 angle_velocity2 = 0
 angle_acceleration1 = 0
 angle_acceleration2 = 0
-Gravity = 8
+Gravity = 1.5
 scatter1 = []
 scatter2 = []
 
@@ -51,12 +52,13 @@ SCATTER_LINE_2 = (255, 255, 0)
 FIRST_POINT = (0, 255, 0)
 SECOND_POINT = (0, 255, 255)
 PENDULUM_ARM = (45, 140, 245)
-ARM_STROKE = max(width // 120, 1)
+STROKE = max(width // 120, 1)
 
 scaling = max(width // 960, 1)
 
 first_point_width = mass1 // scaling
 second_point_width = mass2 // scaling
+default_width = mass1 // scaling
 
 starting_point = (max(width // 2, 1), max(height // 3, 1))
 
@@ -75,10 +77,19 @@ angle1_changer = TextInputBox(dist_from_border + 2 * text_box_size, dist_from_bo
                               text_box_size, font, "Kąt 1", str(round(angle1, 6)))
 angle2_changer = TextInputBox(dist_from_border + 3 * text_box_size, dist_from_border,
                               text_box_size, font, "Kąt 2", str(round(angle2, 6)))
+angle_velocity1_changer = TextInputBox(dist_from_border + 4 * text_box_size, dist_from_border,
+                                       text_box_size, font, "v kątowa 1", str(round(angle_velocity1, 6)))
+angle_velocity2_changer = TextInputBox(dist_from_border + 5 * text_box_size, dist_from_border,
+                                       text_box_size, font, "v kątowa 2", str(round(angle_velocity2, 6)))
+size_toggle_button = ToggleButton(dist_from_border + 6 * text_box_size, dist_from_border,
+                                  text_box_size, font, "Skaluj wielkość")
 group = pygame.sprite.Group(mass1_changer,
                             mass2_changer,
                             angle1_changer,
-                            angle2_changer)
+                            angle2_changer,
+                            angle_velocity1_changer,
+                            angle_velocity2_changer,
+                            size_toggle_button)
 
 # instructions
 instructions1 = "Kliknij: \'r\' - restart z podanymi parametrami, " \
@@ -109,16 +120,20 @@ try:
                         mass2 = float(mass2_changer.get_text())
                         angle1 = float(angle1_changer.get_text())
                         angle2 = float(angle2_changer.get_text())
-                        first_point_width = mass1 // scaling
-                        second_point_width = mass2 // scaling
+                        angle_velocity1 = float(angle_velocity1_changer.get_text())
+                        angle_velocity2 = float(angle_velocity2_changer.get_text())
+                        if size_toggle_button.get_pressed():
+                            first_point_width = mass1 // scaling
+                            second_point_width = mass2 // scaling
                     except ValueError:
                         mass1 = init_mass
                         mass2 = init_mass
+                        if size_toggle_button.get_pressed():
+                            first_point_width = mass1 // scaling
+                            second_point_width = mass2 // scaling
                         angle_velocity1 = 0
                         angle_velocity2 = 0
                     finally:
-                        angle_velocity1 = 0
-                        angle_velocity2 = 0
                         angle_acceleration1 = 0
                         angle_acceleration2 = 0
                         scatter1 = []
@@ -126,6 +141,10 @@ try:
 
                 if event.key == pygame.K_s:
                     stop = not stop
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if size_toggle_button.get_pressed():
+                        first_point_width = default_width
+                        second_point_width = default_width
 
         group.update(event_list)
 
@@ -162,22 +181,21 @@ try:
         scatter1.insert(0, (x1, y1))
         scatter2.insert(0, (x2, y2))
 
-        pygame.draw.line(screen, PENDULUM_ARM, starting_point, (x1, y1), ARM_STROKE)
-        pygame.draw.circle(screen, (105, 90, 105), starting_point, 10)
-
         if len(scatter1) > 1:
             pygame.draw.lines(screen, SCATTER_LINE_1, False, scatter1, 1)
         if len(scatter2) > 1:
             pygame.draw.lines(screen, SCATTER_LINE_2, False, scatter2, 1)
 
-        pygame.draw.line(screen, PENDULUM_ARM, (x1, y1), (x2, y2), ARM_STROKE)
+        pygame.draw.line(screen, PENDULUM_ARM, starting_point, (x1, y1), STROKE)
+        pygame.draw.circle(screen, (105, 90, 105), starting_point, 10)
+
+        pygame.draw.line(screen, PENDULUM_ARM, (x1, y1), (x2, y2), STROKE)
         pygame.draw.circle(screen, FIRST_POINT, (int(x1), int(y1)), first_point_width)
         pygame.draw.circle(screen, SECOND_POINT, (int(x2), int(y2)), second_point_width)
         group.draw(screen)
         pygame.display.update()
 
     pygame.quit()
-
 except ValueError:
     print("Gdzies w kodzie program musial podzielic przez 0 - dlatego program sie wylaczyl")
 finally:
